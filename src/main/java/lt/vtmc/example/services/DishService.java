@@ -54,4 +54,8 @@ public class DishService {
         this.dishRepository.deleteById(dishId);
         return "deleted";
     }
+
+    public Dish getDishById(Long id) {
+        return dishRepository.findById(id).orElse(null);
+    }
 }

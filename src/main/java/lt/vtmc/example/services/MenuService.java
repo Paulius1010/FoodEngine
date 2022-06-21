@@ -9,6 +9,7 @@ import lt.vtmc.example.repositories.RestaurantRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -21,8 +22,7 @@ public class MenuService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public Menu saveMenu(Long id, MenuRequest menuRequest) {
-        Long restaurantId = Long.valueOf(id);
+    public Menu saveMenu(Long restaurantId, MenuRequest menuRequest) {
         Restaurant restaurant = this.restaurantRepository.findById(restaurantId).get();
                 Menu menu = new Menu(
                         restaurant,
@@ -37,14 +37,27 @@ public class MenuService {
     }
 
     public Set<Dish> getAllRestaurantMenuDishes(Long menuId) {
-        return this.menuRepository.findById(Long.valueOf(menuId)).get().getDishes();
+        Optional<Menu> menu = this.menuRepository.findById(menuId);
+        if (menu.isPresent()) {
+            return menu.get().getDishes();
+        } else {
+            return null;
+        }
+    }
+
+    public Menu getMenu(Long menuId) {
+        return this.menuRepository.findById(menuId).orElse(null);
     }
 
     public Menu updateMenu(Long menuId, MenuRequest menuRequest) {
-        Menu menu = this.menuRepository.findById(menuId).get();
-        menu.setName(menuRequest.getName());
-        this.menuRepository.save(menu);
-        return menu;
+        Optional<Menu> menu = this.menuRepository.findById(menuId);
+        if (menu.isPresent()) {
+            menu.get().setName(menuRequest.getName());
+            this.menuRepository.save(menu.get());
+            return menu.get();
+        } else {
+            return null;
+        }
     }
 
     public String deleteMenu(Long menuId) {

@@ -8,6 +8,7 @@ import lt.vtmc.example.services.DishService;
 import lt.vtmc.example.services.MenuService;
 import lt.vtmc.example.services.RestaurantService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,17 +37,20 @@ public class MenuController {
         return ResponseEntity.ok().body(this.restaurantService.getAllRestaurantMenus(restaurantId));
     }
 
-    @PutMapping(value = "/{restaurantId}/menu")
+    @PostMapping(value = "/{restaurantId}/menu")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Menu> saveNewMenu(@PathVariable Long restaurantId, @RequestBody MenuRequest menuRequest) {
         return ResponseEntity.ok().body(this.menuService.saveMenu(restaurantId, menuRequest));
     }
 
     @PutMapping(value = "/menu/{menuId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Menu> updateMenu(@PathVariable Long menuId, @RequestBody MenuRequest menuRequest) {
         return ResponseEntity.ok().body(this.menuService.updateMenu(menuId, menuRequest));
     }
 
     @DeleteMapping(value = "/menu/{menuId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> deleteMenu(@PathVariable Long menuId) {
         return ResponseEntity.ok().body(this.menuService.deleteMenu(menuId));
     }
@@ -61,17 +65,20 @@ public class MenuController {
         return ResponseEntity.ok().body(this.menuService.getAllRestaurantMenuDishes(menuId));
     }
 
-    @PutMapping(value = "/menu/{menuId}/dishes")
+    @PostMapping(value = "/menu/{menuId}/dishes")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Dish> saveNewDish(@PathVariable Long menuId, @RequestBody DishRequest dishRequest) {
         return ResponseEntity.ok().body(this.dishService.saveDish(menuId, dishRequest));
     }
 
     @PutMapping(value = "/menu/dishes/{dishId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Dish> updateDish(@PathVariable Long dishId, @RequestBody DishRequest dishRequest) {
         return ResponseEntity.ok().body(this.dishService.updateDish(dishId, dishRequest));
     }
 
     @DeleteMapping(value = "/menu/dishes/{dishId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> deleteDish(@PathVariable Long dishId) {
         return ResponseEntity.ok().body(this.dishService.deleteDish(dishId));
     }
