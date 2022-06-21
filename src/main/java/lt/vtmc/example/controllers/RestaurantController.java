@@ -44,7 +44,6 @@ public class RestaurantController {
         return ResponseEntity.ok().body(this.restaurantService.saveNewRestaurant(restaurantRequest));
     }
 
-
     @PutMapping(value = "/{restaurantId}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Restaurant> updateRestaurant(@PathVariable Long restaurantId, @RequestBody RestaurantRequest restaurantRequest) {
@@ -56,6 +55,4 @@ public class RestaurantController {
     public ResponseEntity<String> deleteOneRestaurant(@PathVariable Long restaurantId) {
         return ResponseEntity.ok().body(this.restaurantService.deleteOneRestaurant(restaurantId));
     }
-
-
 }
