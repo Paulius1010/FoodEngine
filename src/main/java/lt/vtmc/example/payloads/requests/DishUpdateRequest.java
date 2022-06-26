@@ -1,11 +1,12 @@
 package lt.vtmc.example.payloads.requests;
 
-public class DishRequest {
+public class DishUpdateRequest {
 
-
-    private Long restaurantId;
+    private Long dishId;
 
     private Long menuId;
+
+    private Long restaurantId;
 
     private String name;
 
@@ -15,10 +16,11 @@ public class DishRequest {
 
     private Integer preparationTimeInMinutes;
 
-    public DishRequest() {
+    public DishUpdateRequest() {
     }
 
-    public DishRequest(Long restaurantId, Long menuId, String name, String description, String price, Integer preparationTimeInMinutes) {
+    public DishUpdateRequest(Long dishId, Long restaurantId, Long menuId, String name, String description, String price, Integer preparationTimeInMinutes) {
+        this.dishId = dishId;
         this.restaurantId = restaurantId;
         this.menuId = menuId;
         this.name = name;
@@ -27,7 +29,13 @@ public class DishRequest {
         this.preparationTimeInMinutes = preparationTimeInMinutes;
     }
 
+    public Long getDishId() {
+        return dishId;
+    }
 
+    public void setDishId(Long dishId) {
+        this.dishId = dishId;
+    }
 
     public Long getRestaurantId() {
         return restaurantId;

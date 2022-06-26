@@ -1,19 +1,28 @@
 package lt.vtmc.example.payloads.requests;
 
-public class MenuRequest {
+public class MenuUpdateRequest {
 
+
+    private Long menuId;
     private Long restaurantId;
-
     private String name;
 
-    public MenuRequest(Long restaurantId, String name) {
+    public MenuUpdateRequest(Long menuId, Long restaurantId, String name) {
+        this.menuId = menuId;
         this.restaurantId = restaurantId;
         this.name = name;
     }
 
-    public MenuRequest() {
+    public MenuUpdateRequest() {
     }
 
+    public Long getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(Long menuId) {
+        this.menuId = menuId;
+    }
     public Long getRestaurantId() {
         return restaurantId;
     }

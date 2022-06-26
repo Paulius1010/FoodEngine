@@ -3,7 +3,11 @@ package lt.vtmc.example.controllers;
 import lt.vtmc.example.models.Dish;
 import lt.vtmc.example.models.Menu;
 import lt.vtmc.example.payloads.requests.DishRequest;
+import lt.vtmc.example.payloads.requests.DishUpdateRequest;
 import lt.vtmc.example.payloads.requests.MenuRequest;
+import lt.vtmc.example.payloads.requests.MenuUpdateRequest;
+import lt.vtmc.example.payloads.responses.DishResponse;
+import lt.vtmc.example.payloads.responses.MenuResponse;
 import lt.vtmc.example.services.DishService;
 import lt.vtmc.example.services.MenuService;
 import lt.vtmc.example.services.RestaurantService;
@@ -15,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/api/restaurants")
 public class MenuController {
     private final MenuService menuService;
@@ -28,7 +33,7 @@ public class MenuController {
     }
 
     @GetMapping(value = "/menu")
-    public ResponseEntity<List<Menu>> fetchAllMenus() {
+    public ResponseEntity<List<MenuResponse>> fetchAllMenus() {
         return ResponseEntity.ok().body(this.menuService.getAllMenus());
     }
 
@@ -37,16 +42,16 @@ public class MenuController {
         return ResponseEntity.ok().body(this.restaurantService.getAllRestaurantMenus(restaurantId));
     }
 
-    @PostMapping(value = "/{restaurantId}/menu")
+    @PostMapping(value = "/menu")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<Menu> saveNewMenu(@PathVariable Long restaurantId, @RequestBody MenuRequest menuRequest) {
-        return ResponseEntity.ok().body(this.menuService.saveMenu(restaurantId, menuRequest));
+    public ResponseEntity<Menu> saveNewMenu(@RequestBody MenuRequest menuRequest) {
+        return ResponseEntity.ok().body(this.menuService.saveMenu(menuRequest));
     }
 
-    @PutMapping(value = "/menu/{menuId}")
+    @PutMapping(value = "/menu")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<Menu> updateMenu(@PathVariable Long menuId, @RequestBody MenuRequest menuRequest) {
-        return ResponseEntity.ok().body(this.menuService.updateMenu(menuId, menuRequest));
+    public ResponseEntity<Menu> updateMenu(@RequestBody MenuUpdateRequest menuUpdateRequest) {
+        return ResponseEntity.ok().body(this.menuService.updateMenu(menuUpdateRequest));
     }
 
     @DeleteMapping(value = "/menu/{menuId}")
@@ -56,25 +61,25 @@ public class MenuController {
     }
 
     @GetMapping(value = "/menu/dishes")
-    public ResponseEntity<List<Dish>> fetchAllDishes() {
+    public ResponseEntity<List<DishResponse>> fetchAllDishes() {
         return ResponseEntity.ok().body(this.dishService.getAllDishes());
     }
 
     @GetMapping(value = "/menu/{menuId}/dishes")
-    public ResponseEntity<Set<Dish>> fetchAllRestaurantMenuDishes(@PathVariable Long menuId) {
+    public ResponseEntity<Set<DishResponse>> fetchAllRestaurantMenuDishes(@PathVariable Long menuId) {
         return ResponseEntity.ok().body(this.menuService.getAllRestaurantMenuDishes(menuId));
     }
 
-    @PostMapping(value = "/menu/{menuId}/dishes")
+    @PostMapping(value = "/menu/dishes")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<Dish> saveNewDish(@PathVariable Long menuId, @RequestBody DishRequest dishRequest) {
-        return ResponseEntity.ok().body(this.dishService.saveDish(menuId, dishRequest));
+    public ResponseEntity<Dish> saveNewDish(@RequestBody DishRequest dishRequest) {
+        return ResponseEntity.ok().body(this.dishService.saveDish(dishRequest));
     }
 
-    @PutMapping(value = "/menu/dishes/{dishId}")
+    @PutMapping(value = "/menu/dishes")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<Dish> updateDish(@PathVariable Long dishId, @RequestBody DishRequest dishRequest) {
-        return ResponseEntity.ok().body(this.dishService.updateDish(dishId, dishRequest));
+    public ResponseEntity<Dish> updateDish(@RequestBody DishUpdateRequest dishUpdateRequest) {
+        return ResponseEntity.ok().body(this.dishService.updateDish(dishUpdateRequest));
     }
 
     @DeleteMapping(value = "/menu/dishes/{dishId}")
