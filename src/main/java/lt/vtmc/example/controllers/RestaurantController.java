@@ -2,6 +2,7 @@ package lt.vtmc.example.controllers;
 
 import lt.vtmc.example.models.Restaurant;
 import lt.vtmc.example.payloads.requests.RestaurantRequest;
+import lt.vtmc.example.payloads.responses.DishResponse;
 import lt.vtmc.example.services.DishService;
 import lt.vtmc.example.services.MenuService;
 import lt.vtmc.example.services.RestaurantService;
@@ -36,6 +37,11 @@ public class RestaurantController {
     @GetMapping(value = "/{restaurantId}")
     public ResponseEntity<Restaurant> fetchOneRestaurant(@PathVariable Long restaurantId) {
         return ResponseEntity.ok().body(this.restaurantService.getOneRestaurant(restaurantId));
+    }
+
+    @GetMapping(value = "/{restaurantId}/menu/dishes")
+    public ResponseEntity<List<DishResponse>> fetchOneRestaurantAllDishes(@PathVariable Long restaurantId) {
+        return ResponseEntity.ok().body(this.restaurantService.getOneRestaurantAllDishes(restaurantId));
     }
 
     @PostMapping
