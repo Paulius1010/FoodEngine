@@ -7,12 +7,10 @@ import lt.vtmc.example.payloads.requests.DishUpdateRequest;
 import lt.vtmc.example.payloads.responses.DishResponse;
 import lt.vtmc.example.repositories.DishRepository;
 import lt.vtmc.example.repositories.MenuRepository;
-import lt.vtmc.example.repositories.RestaurantRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

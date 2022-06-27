@@ -43,19 +43,19 @@ public class MenuController {
     }
 
     @PostMapping(value = "/menu")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Menu> saveNewMenu(@RequestBody MenuRequest menuRequest) {
         return ResponseEntity.ok().body(this.menuService.saveMenu(menuRequest));
     }
 
     @PutMapping(value = "/menu")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Menu> updateMenu(@RequestBody MenuUpdateRequest menuUpdateRequest) {
         return ResponseEntity.ok().body(this.menuService.updateMenu(menuUpdateRequest));
     }
 
     @DeleteMapping(value = "/menu/{menuId}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> deleteMenu(@PathVariable Long menuId) {
         return ResponseEntity.ok().body(this.menuService.deleteMenu(menuId));
     }
@@ -71,19 +71,19 @@ public class MenuController {
     }
 
     @PostMapping(value = "/menu/dishes")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Dish> saveNewDish(@RequestBody DishRequest dishRequest) {
         return ResponseEntity.ok().body(this.dishService.saveDish(dishRequest));
     }
 
     @PutMapping(value = "/menu/dishes")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Dish> updateDish(@RequestBody DishUpdateRequest dishUpdateRequest) {
         return ResponseEntity.ok().body(this.dishService.updateDish(dishUpdateRequest));
     }
 
     @DeleteMapping(value = "/menu/dishes/{dishId}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> deleteDish(@PathVariable Long dishId) {
         return ResponseEntity.ok().body(this.dishService.deleteDish(dishId));
     }

@@ -1,5 +1,6 @@
 package lt.vtmc.example.services;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -25,4 +26,7 @@ public class UserService {
     }
 
 
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 }

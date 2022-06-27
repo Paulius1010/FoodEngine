@@ -51,13 +51,13 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ADMIN')")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
     }
 
     @PutMapping("/{id}")
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @Valid @RequestBody SignupRequest signUpRequest) {
         User user = userRepository.findById(id).orElseThrow();
         user.setUsername(signUpRequest.getUsername());
