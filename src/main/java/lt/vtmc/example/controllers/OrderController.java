@@ -1,6 +1,7 @@
 package lt.vtmc.example.controllers;
 
 import lt.vtmc.example.models.Order;
+import lt.vtmc.example.payloads.responses.OrderResponse;
 import lt.vtmc.example.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,20 +22,25 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @GetMapping(value = "/api/orders/all")
+    public ResponseEntity<List<OrderResponse>> fetchAllOrders() {
+        return ResponseEntity.ok().body(this.orderService.getAllOrders());
+    }
+
     @GetMapping
-    public ResponseEntity<List<Order>> fetchAllUserOrders() {
+    public ResponseEntity<List<OrderResponse>> fetchAllUserOrders() {
         return ResponseEntity.ok().body(this.orderService.getAllUserOrders());
     }
 
     @PostMapping(value = "/{dishId}")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') ")
     public ResponseEntity<Order> saveNewUserOrder(@PathVariable Long dishId) {
         return ResponseEntity.ok().body(this.orderService.saveNewOrder(dishId));
     }
 
-    @DeleteMapping(value = "/{orderId}")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    public ResponseEntity<String> deleteOrder(@PathVariable Long orderId) {
-        return ResponseEntity.ok().body(this.orderService.deleteOrder(orderId));
+    @DeleteMapping(value = "/{dishId}")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') ")
+    public ResponseEntity<String> deleteOrder(@PathVariable Long dishId) {
+        return ResponseEntity.ok().body(this.orderService.deleteOrder(dishId));
     }
 }

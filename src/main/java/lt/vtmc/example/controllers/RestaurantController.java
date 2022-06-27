@@ -45,19 +45,19 @@ public class RestaurantController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Restaurant> saveNewRestaurant(@RequestBody RestaurantRequest restaurantRequest) {
         return ResponseEntity.ok().body(this.restaurantService.saveNewRestaurant(restaurantRequest));
     }
 
     @PutMapping(value = "/{restaurantId}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Restaurant> updateRestaurant(@PathVariable Long restaurantId, @RequestBody RestaurantRequest restaurantRequest) {
         return ResponseEntity.ok().body(this.restaurantService.updateRestaurant(restaurantId, restaurantRequest));
     }
 
     @DeleteMapping(value = "/{restaurantId}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> deleteOneRestaurant(@PathVariable Long restaurantId) {
         return ResponseEntity.ok().body(this.restaurantService.deleteOneRestaurant(restaurantId));
     }

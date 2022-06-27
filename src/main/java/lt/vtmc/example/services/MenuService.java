@@ -1,6 +1,5 @@
 package lt.vtmc.example.services;
 
-import lt.vtmc.example.models.Dish;
 import lt.vtmc.example.models.Menu;
 import lt.vtmc.example.models.Restaurant;
 import lt.vtmc.example.payloads.requests.MenuRequest;
