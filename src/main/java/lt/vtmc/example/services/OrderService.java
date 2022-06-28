@@ -10,10 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,7 +46,7 @@ public class OrderService {
                         dish.getPrice().toString(),
                         countOrders));
             }
-            return orderResponses.stream().sorted().collect(Collectors.toList());
+            return orderResponses.stream().sorted(Comparator.comparingLong(OrderResponse::getDishId)).collect(Collectors.toList());
         } else {
             return Collections.emptyList();
         }
@@ -63,9 +60,27 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    public Order saveNewOrderByAdmin(Long userId, Long dishId) {
+        User user = userService.getUserById(userId).get();
+        Dish dish = dishService.getDishById(dishId);
+        Order order = new Order(user, dish);
+        return orderRepository.save(order);
+    }
+
     public String deleteOrder(Long dishId) {
         String currentPrincipalEmail = getCurrentPrincipalEmail();
         User user = userService.getUserByEmail(currentPrincipalEmail).orElse(null);
+        if (getAllUserOrders().stream().anyMatch(order -> order.getDishId().equals(dishId))) {
+            Order deletingOrder = orderRepository.findByUser(user).stream().filter(order -> order.getDish().getId().equals(dishId)).findFirst().get();
+            orderRepository.delete(deletingOrder);
+            return "deleted";
+        } else {
+            return "not find";
+        }
+    }
+
+    public String deleteOrderByAdmin(Long userId, Long dishId) {
+        User user = userService.getUserById(userId).get();
         if (getAllUserOrders().stream().anyMatch(order -> order.getDishId().equals(dishId))) {
             Order deletingOrder = orderRepository.findByUser(user).stream().filter(order -> order.getDish().getId().equals(dishId)).findFirst().get();
             orderRepository.delete(deletingOrder);
@@ -100,7 +115,7 @@ public class OrderService {
                             countOrders));
                 }
             }
-            return orderResponses.stream().sorted().collect(Collectors.toList());
+            return orderResponses.stream().sorted(Comparator.comparingLong(OrderResponse::getDishId)).collect(Collectors.toList());
         } else {
             return Collections.emptyList();
         }
