@@ -22,7 +22,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping(value = "/api/orders/all")
+    @GetMapping(value = "/all")
     public ResponseEntity<List<OrderResponse>> fetchAllOrders() {
         return ResponseEntity.ok().body(this.orderService.getAllOrders());
     }
@@ -38,9 +38,21 @@ public class OrderController {
         return ResponseEntity.ok().body(this.orderService.saveNewOrder(dishId));
     }
 
+    @PostMapping(value = "/{userId}/{dishId}")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') ")
+    public ResponseEntity<Order> saveNewUserOrderByAdmin(@PathVariable Long userId, @PathVariable Long dishId) {
+        return ResponseEntity.ok().body(this.orderService.saveNewOrderByAdmin(userId, dishId));
+    }
+
     @DeleteMapping(value = "/{dishId}")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') ")
     public ResponseEntity<String> deleteOrder(@PathVariable Long dishId) {
         return ResponseEntity.ok().body(this.orderService.deleteOrder(dishId));
+    }
+
+    @DeleteMapping(value = "/{userId}/{dishId}")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') ")
+    public ResponseEntity<String> deleteOrderByAdmin(@PathVariable Long userId, @PathVariable Long dishId) {
+        return ResponseEntity.ok().body(this.orderService.deleteOrderByAdmin(userId, dishId));
     }
 }
